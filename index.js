@@ -87,4 +87,4 @@ app.delete('/api/productos/:id', (req, res) => {
 });
 
 // Mensaje cambiado para forzar detección de Git en WebStorm
-app.listen(PORT, () => console.log(`Servidor ACTUALIZADO Y CORREGIDO corriendo en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor ACTUALIZADO corriendo en puerto ${PORT}`));
