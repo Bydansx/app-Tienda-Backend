@@ -5,19 +5,20 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- CONFIGURACIÓN CORS BLINDADA Y CORREGIDA ---
+// --- CONFIGURACIÓN CORS BLINDADA ---
+// Al poner esto aquí arriba, Express ya maneja automáticamente las peticiones OPTIONS
 app.use(cors({
     origin: [
-        "http://localhost:5173", // Tu local
-        "https://app-tienda-frontend-bydansxs-projects.vercel.app", // Tu producción
-        "https://app-tienda-frontend-git-main-bydansxs-projects.vercel.app" // ¡ESTA ERA LA QUE FALTABA EN TU ERROR!
+        "http://localhost:5173",
+        "https://app-tienda-frontend-bydansxs-projects.vercel.app",
+        "https://app-tienda-frontend-git-main-bydansxs-projects.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Esto responde automáticamente a las preguntas de seguridad del navegador
-app.options('*', cors());
+// --- ¡LÍNEA BORRADA AQUÍ! ---
+// (Borramos app.options('*', cors()) porque causaba el crash y no es necesaria)
 
 app.use(express.json());
 
@@ -86,5 +87,5 @@ app.delete('/api/productos/:id', (req, res) => {
     res.json({ msg: "Borrado" });
 });
 
-// Mensaje cambiado para forzar detección de Git en WebStorm
-app.listen(PORT, () => console.log(`Servidor ACTUALIZADO corriendo en puerto ${PORT}`));
+// Mensaje cambiado para asegurar que WebStorm detecte el cambio
+app.listen(PORT, () => console.log(`Servidor SIN ERRORES DE RUTA corriendo en puerto ${PORT}`));
