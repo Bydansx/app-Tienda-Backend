@@ -1,18 +1,27 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require("cors");
 const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Importante para Render
+const PORT = process.env.PORT || 3000;
 
-// CONFIGURACIÓN DE CORS (La llave maestra)
+// --- CONFIGURACIÓN CORS BLINDADA Y CORREGIDA ---
 app.use(cors({
-    origin: '*', // Permite que cualquier sitio (como Vercel) se conecte
-    methods: ['GET', 'POST', 'DELETE', 'OPTIONS']
+    origin: [
+        "http://localhost:5173", // Tu local
+        "https://app-tienda-frontend-bydansxs-projects.vercel.app", // Tu producción
+        "https://app-tienda-frontend-git-main-bydansxs-projects.vercel.app" // ¡ESTA ERA LA QUE FALTABA EN TU ERROR!
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+// Esto responde automáticamente a las preguntas de seguridad del navegador
+app.options('*', cors());
 
 app.use(express.json());
 
+// --- BASE DE DATOS ---
 const leerBaseDeDatos = () => {
     try {
         const datos = fs.readFileSync('./db.json', 'utf-8');
@@ -24,22 +33,24 @@ const guardarEnBaseDeDatos = (nuevosDatos) => {
     fs.writeFileSync('./db.json', JSON.stringify(nuevosDatos, null, 2));
 };
 
-// --- RUTA DE LOGIN CON LOGS ---
+// --- RUTAS ---
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
     if (password === process.env.ADMIN_PASSWORD) {
         res.json({ success: true });
     } else {
-        res.status(401).json({ success: false, mensaje: "Contraseña incorrecta" });
+        res.status(401).json({ success: false });
     }
 });
 
-// --- RESTO DE RUTAS ---
-app.get('/api/productos', (req, res) => res.json(leerBaseDeDatos()));
+app.get('/api/productos', (req, res) => {
+    res.json(leerBaseDeDatos());
+});
 
 app.post('/api/productos', (req, res) => {
     const { password, ...nuevoP } = req.body;
-    if (password !== process.env.ADMIN_PASSWORD) return res.status(401).send("No");
+    if (password !== process.env.ADMIN_PASSWORD) return res.status(401).json({msg: "Clave mal"});
+
     const productos = leerBaseDeDatos();
     const productoFinal = { id: Date.now(), ...nuevoP };
     productos.push(productoFinal);
@@ -47,12 +58,33 @@ app.post('/api/productos', (req, res) => {
     res.json(productoFinal);
 });
 
-app.delete('/api/productos/:id', (req, res) => {
-    const { password } = req.body;
-    if (password !== process.env.ADMIN_PASSWORD) return res.status(401).send("No");
-    const productos = leerBaseDeDatos().filter(p => p.id != req.params.id);
-    guardarEnBaseDeDatos(productos);
-    res.json({ msg: "borrado" });
+// RUTA PUT (EDITAR)
+app.put('/api/productos/:id', (req, res) => {
+    const { id } = req.params;
+    const { password, ...datos } = req.body;
+
+    if (password !== process.env.ADMIN_PASSWORD) return res.status(401).json({msg: "Clave mal"});
+
+    let productos = leerBaseDeDatos();
+    const index = productos.findIndex(p => p.id == id);
+
+    if (index !== -1) {
+        productos[index] = { ...productos[index], ...datos };
+        guardarEnBaseDeDatos(productos);
+        res.json({ msg: "Actualizado" });
+    } else {
+        res.status(404).json({ msg: "No encontrado" });
+    }
 });
 
-app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
+app.delete('/api/productos/:id', (req, res) => {
+    const { password } = req.body;
+    if (password !== process.env.ADMIN_PASSWORD) return res.status(401).json({msg: "Clave mal"});
+
+    const productos = leerBaseDeDatos().filter(p => p.id != req.params.id);
+    guardarEnBaseDeDatos(productos);
+    res.json({ msg: "Borrado" });
+});
+
+// Mensaje cambiado para forzar detección de Git en WebStorm
+app.listen(PORT, () => console.log(`Servidor ACTUALIZADO Y CORREGIDO corriendo en puerto ${PORT}`));
