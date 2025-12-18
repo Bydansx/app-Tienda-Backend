@@ -1,37 +1,26 @@
 [
   {
     "id": 1,
-    "nombre": "Kit Arduino Uno R3",
-    "precio": "$25.99",
-    "categoria": "Módulos",
-    "img": "https://images.unsplash.com/photo-1553406830-ef2513450d76?q=80&w=1000&auto=format&fit=crop"
+    "nombre": "Arduino Uno R3",
+    "precio": 15.50,
+    "categoria": "Microcontroladores",
+    "descripcion": "La placa más popular para iniciar en el mundo de la electrónica. Incluye cable USB.",
+    "imagen": "https://m.media-amazon.com/images/I/51+1L1+2UXL._AC_SY300_SX300_.jpg"
   },
   {
     "id": 2,
-    "nombre": "Multímetro Digital Pro",
-    "precio": "$45.50",
-    "categoria": "Herramientas",
-    "img": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1000&auto=format&fit=crop"
+    "nombre": "Filamento PLA Blanco",
+    "precio": 22.00,
+    "categoria": "Impresión 3D",
+    "descripcion": "Filamento de alta calidad, 1.75mm, 1kg. Ideal para impresiones suaves y resistentes.",
+    "imagen": "https://m.media-amazon.com/images/I/61Nf9kS2+RL._AC_SX679_.jpg"
   },
   {
     "id": 3,
-    "nombre": "Brazo Robótico 4DOF",
-    "precio": "$89.99",
-    "categoria": "Mecatrónica",
-    "img": "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?q=80&w=1000&auto=format&fit=crop"
-  },
-  {
-    "id": 4,
-    "nombre": "Panel Solar",
-    "precio": "$120",
-    "categoria": "Electrónica",
-    "img": "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1000&auto=format&fit=crop"
-  },
-  {
-    "id": 5,
-    "nombre": "resistencia",
-    "precio": "$0.05",
-    "categoria": "Electrónica",
-    "img": "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1000&auto=format&fit=crop"
+    "nombre": "Kit Sensores 37 en 1",
+    "precio": 35.00,
+    "categoria": "Kits Educativos",
+    "descripcion": "Caja completa con sensores de temperatura, luz, sonido y más para tus proyectos.",
+    "imagen": "https://m.media-amazon.com/images/I/71X-xS-kCcL._AC_SX679_.jpg"
   }
 ]
